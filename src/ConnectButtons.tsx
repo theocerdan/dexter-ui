@@ -1,5 +1,5 @@
 import {useAccount, useConnect, useDisconnect} from "wagmi";
-import {Button, Frame, MenuList, MenuListItem, Separator} from "react95";
+import {Button, Frame, Separator} from "react95";
 
 const ConnectButtons = () => {
 

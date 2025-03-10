@@ -3,23 +3,8 @@ import {useEffect, useState} from "react";
 import { getAvailableCoin, Token} from "./repository/SwapRepository.ts";
 import { useSwapStore } from "./store/SwapStore.ts";
 import {SelectOption} from "react95/dist/Select/Select.types";
-import {useAccount, useBalance} from "wagmi";
-import {formatEther} from "viem";
-import {useReadRouterAllPairs } from "./generated.ts";
 
 const Swap = () => {
-
-    const { address } = useAccount();
-    const result = useBalance({
-        address: address as `0x${string}`,
-        unit: 'ether',
-    });
-
-    const { data, isError, isLoading, error } = useReadRouterAllPairs({
-        address: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-        args: [0],
-    });
-
 
     const [tokens, setTokens] = useState<Token[]>([]);
 
@@ -55,20 +40,8 @@ const Swap = () => {
         getQuote();
     }, [amountIn, tokenIn, tokenOut]);
 
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
-
-    useEffect(() => {
-        console.log(error);
-    }, [error]);
-
     return (
         <GroupBox label='Swap' style={{ justifyContent: 'center', padding: 30, flexDirection: 'row', gap: 10 }}>
-            {data}
-            {isError && <p>Error fetching balance</p>}
-            {isLoading && <p>Loading...</p>}
-            {result && result.data ? <p>Balance: {formatEther(result.data.value)} {result.data.symbol}</p> : <p>Loading...</p>}
             <div style={{display: 'flex', gap: 10, flexDirection: "column"}}>
                 <div style={{display: 'flex', gap: 10}}>
                     <TokenAmountIn tokens={tokens} onChange={onTokenAmountInChange}/>
