@@ -12,6 +12,9 @@ const AllowanceLiquidityPool = ({ data, onApprove }: { data: LiquidityPool, owne
             onSuccess: () => {
                 toast("Approved");
                 onApprove();
+            },
+            onError: (e) => {
+                toast(e.message);
             }
         }});
 

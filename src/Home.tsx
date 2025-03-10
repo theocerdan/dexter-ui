@@ -2,6 +2,8 @@ import Swap from "./Swap.tsx";
 import LiquidityPools from "./components/LiquidityPools.tsx";
 import ConnectButtons from "./ConnectButtons.tsx";
 import {useAccount} from "wagmi";
+import CreateLiquidityPool from "./components/CreateLiquidityPool.tsx";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 const Home = () => {
 
@@ -14,12 +16,16 @@ const Home = () => {
                 <div style={{display: 'flex', justifyContent: 'center'}}>
                     <Swap/>
                 </div>
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <CreateLiquidityPool />
+                </div>
                 <div style={{padding: 30}}>
-                    <LiquidityPools/>
+                    <LiquidityPools />
                 </div>
             </> : <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh'}}>
                 <h1 style={{ fontSize: '30px'}}>You must be connected to interact with Dexter</h1>
             </ div>}
+            <ReactQueryDevtools initialIsOpen={false} />
         </div>
     );
 }
