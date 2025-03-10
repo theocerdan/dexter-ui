@@ -1,19 +1,29 @@
 import {LiquidityPool} from "../repository/LiquidityPoolRepository.ts";
 import {useState} from "react";
 import {
-    useReadPairShares,
     useWritePairAddLiquidity,
     useWritePairRemoveLiquidity
 } from "../generated.ts";
-import {Address} from "viem";
 import {Button, TextInput} from "react95";
+import {toast} from "react-toastify";
 
-const DepositLiquidityPool = ({ data, owner }: { data: LiquidityPool, owner: Address }) => {
+const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares }: { data: LiquidityPool, onAddLiquidity: () => void | undefined, onRemoveLiquidity: () => void | undefined, shares: bigint }) => {
 
     const [amountTokenA, setAmountTokenA] = useState(0);
     const [amountTokenB, setAmountTokenB] = useState(0);
 
-    const { writeContract: removeLiquidity } = useWritePairRemoveLiquidity();
+    const { writeContract: removeLiquidity } = useWritePairRemoveLiquidity({
+        mutation: {
+            onSuccess: () => {
+                if (onRemoveLiquidity) {
+                    onRemoveLiquidity();
+                }
+            },
+            onError: (e) => {
+                toast(e.message);
+            },
+        }
+    });
 
     const onTokenAChange = (e: any) => {
         setAmountTokenA(e.target.value);
@@ -23,7 +33,7 @@ const DepositLiquidityPool = ({ data, owner }: { data: LiquidityPool, owner: Add
         setAmountTokenB(e.target.value);
     }
 
-    const onAddLiquidity = () => {
+    const handleAddLiquidity = () => {
         if (amountTokenA <= 0 || amountTokenB <= 0) {
             return;
         }
@@ -31,9 +41,11 @@ const DepositLiquidityPool = ({ data, owner }: { data: LiquidityPool, owner: Add
             address: data.pair,
             args: [BigInt(amountTokenA), BigInt(amountTokenB)],
         })
+        setAmountTokenA(0);
+        setAmountTokenB(0);
     }
 
-    const onRemoveLiquidity = () => {
+    const handleRemoveLiquidity = () => {
         if (shares == undefined) {
             return;
         }
@@ -42,12 +54,15 @@ const DepositLiquidityPool = ({ data, owner }: { data: LiquidityPool, owner: Add
 
     const { writeContract: addLiquidity } = useWritePairAddLiquidity({ mutation: {
             onSuccess: () => {
-                setAmountTokenA(0);
-                setAmountTokenB(0);
+                if (onAddLiquidity) {
+                    onAddLiquidity();
+                }
+            },
+            onError: (e) => {
+                toast(e.message);
             }
         }
     });
-    const { data: shares } = useReadPairShares({ address: data.pair as `0x${string}`, args: [owner] });
 
     return (
         <div style={{display: 'flex', flexDirection: 'column', width: '100%', gap: 10 }}>
@@ -61,8 +76,8 @@ const DepositLiquidityPool = ({ data, owner }: { data: LiquidityPool, owner: Add
                 <TextInput type={"number"} fullWidth placeholder={data.tokenBSymbol} onChange={onTokenBChange}
                            value={amountTokenB}></TextInput>
             </div>
-            <Button disabled={!(amountTokenA > 0 && amountTokenB > 0)} onClick={onAddLiquidity}>Add</Button>
-            {shares > 0 && <Button fullWidth onClick={onRemoveLiquidity}>Remove {shares} shares</Button>}
+            <Button disabled={!(amountTokenA > 0 && amountTokenB > 0)} onClick={handleAddLiquidity}>Add</Button>
+            {shares > 0 && <Button fullWidth onClick={handleRemoveLiquidity}>Remove {shares} shares</Button>}
         </div>
     )
 }
