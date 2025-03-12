@@ -1,9 +1,9 @@
-import Swap from "./Swap.tsx";
 import LiquidityPools from "./components/LiquidityPools.tsx";
 import ConnectButtons from "./ConnectButtons.tsx";
 import {useAccount} from "wagmi";
 import CreateLiquidityPool from "./components/CreateLiquidityPool.tsx";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import SwapBox from "./Swap.tsx";
 
 const Home = () => {
 
@@ -14,7 +14,7 @@ const Home = () => {
             <ConnectButtons/>
             {isConnected && address ? <>
                 <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <Swap/>
+                    <SwapBox />
                 </div>
                 <div style={{display: 'flex', justifyContent: 'center'}}>
                     <CreateLiquidityPool />

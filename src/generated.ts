@@ -145,6 +145,17 @@ export const pairAbi = [
   },
   {
     type: 'function',
+    inputs: [
+      { name: 'tokenIn', internalType: 'address', type: 'address' },
+      { name: 'tokenOut', internalType: 'address', type: 'address' },
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getQuote',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [{ name: 'liquidity', internalType: 'uint256', type: 'uint256' }],
     name: 'removeLiquidity',
     outputs: [],
@@ -173,15 +184,12 @@ export const pairAbi = [
   },
   {
     type: 'function',
-    inputs: [{ name: 'amountIn', internalType: 'uint256', type: 'uint256' }],
-    name: 'swapTokenAToTokenB',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'amountIn', internalType: 'uint256', type: 'uint256' }],
-    name: 'swapTokenBToTokenA',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'tokenIn', internalType: 'address', type: 'address' },
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swap',
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -311,6 +319,17 @@ export const routerAbi = [
   },
   {
     type: 'function',
+    inputs: [
+      { name: 'tokenIn', internalType: 'address', type: 'address' },
+      { name: 'tokenOut', internalType: 'address', type: 'address' },
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getQuote',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [],
     name: 'owner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
@@ -320,6 +339,18 @@ export const routerAbi = [
     type: 'function',
     inputs: [],
     name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'tokenIn', internalType: 'address', type: 'address' },
+      { name: 'tokenOut', internalType: 'address', type: 'address' },
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapToken',
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -492,6 +523,14 @@ export const useReadPairGetAmountOut = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"getQuote"`
+ */
+export const useReadPairGetQuote = /*#__PURE__*/ createUseReadContract({
+  abi: pairAbi,
+  functionName: 'getQuote',
+})
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"reserveA"`
  */
 export const useReadPairReserveA = /*#__PURE__*/ createUseReadContract({
@@ -578,22 +617,12 @@ export const useWritePairRemoveLiquidity = /*#__PURE__*/ createUseWriteContract(
 )
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"swapTokenAToTokenB"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"swap"`
  */
-export const useWritePairSwapTokenAToTokenB =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: pairAbi,
-    functionName: 'swapTokenAToTokenB',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"swapTokenBToTokenA"`
- */
-export const useWritePairSwapTokenBToTokenA =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: pairAbi,
-    functionName: 'swapTokenBToTokenA',
-  })
+export const useWritePairSwap = /*#__PURE__*/ createUseWriteContract({
+  abi: pairAbi,
+  functionName: 'swap',
+})
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link pairAbi}__
@@ -621,22 +650,12 @@ export const useSimulatePairRemoveLiquidity =
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"swapTokenAToTokenB"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"swap"`
  */
-export const useSimulatePairSwapTokenAToTokenB =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: pairAbi,
-    functionName: 'swapTokenAToTokenB',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"swapTokenBToTokenA"`
- */
-export const useSimulatePairSwapTokenBToTokenA =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: pairAbi,
-    functionName: 'swapTokenBToTokenA',
-  })
+export const useSimulatePairSwap = /*#__PURE__*/ createUseSimulateContract({
+  abi: pairAbi,
+  functionName: 'swap',
+})
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link routerAbi}__
@@ -659,6 +678,14 @@ export const useReadRouterAllPairs = /*#__PURE__*/ createUseReadContract({
 export const useReadRouterGetPair = /*#__PURE__*/ createUseReadContract({
   abi: routerAbi,
   functionName: 'getPair',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"getQuote"`
+ */
+export const useReadRouterGetQuote = /*#__PURE__*/ createUseReadContract({
+  abi: routerAbi,
+  functionName: 'getQuote',
 })
 
 /**
@@ -694,6 +721,14 @@ export const useWriteRouterRenounceOwnership =
   })
 
 /**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"swapToken"`
+ */
+export const useWriteRouterSwapToken = /*#__PURE__*/ createUseWriteContract({
+  abi: routerAbi,
+  functionName: 'swapToken',
+})
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"transferOwnership"`
  */
 export const useWriteRouterTransferOwnership =
@@ -725,6 +760,15 @@ export const useSimulateRouterRenounceOwnership =
   /*#__PURE__*/ createUseSimulateContract({
     abi: routerAbi,
     functionName: 'renounceOwnership',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"swapToken"`
+ */
+export const useSimulateRouterSwapToken =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: routerAbi,
+    functionName: 'swapToken',
   })
 
 /**

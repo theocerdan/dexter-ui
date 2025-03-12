@@ -70,6 +70,35 @@ export const pairABI = [
     {
         "inputs": [
             {
+                "internalType": "address",
+                "name": "tokenIn",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "tokenOut",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amountIn",
+                "type": "uint256"
+            }
+        ],
+        "name": "getQuote",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "internalType": "uint256",
                 "name": "liquidity",
                 "type": "uint256"
@@ -128,25 +157,22 @@ export const pairABI = [
     {
         "inputs": [
             {
-                "internalType": "uint256",
-                "name": "amountIn",
-                "type": "uint256"
-            }
-        ],
-        "name": "swapTokenAToTokenB",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "tokenIn",
+                "type": "address"
+            },
             {
                 "internalType": "uint256",
                 "name": "amountIn",
                 "type": "uint256"
             }
         ],
-        "name": "swapTokenBToTokenA",
+        "name": "swap",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"

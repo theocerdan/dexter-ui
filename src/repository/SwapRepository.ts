@@ -1,8 +1,12 @@
 //swap
 // get balance
 
-import {config} from "../config.ts";
-import { getBalance } from '@wagmi/core'
+import {config, publicClient} from "../config.ts";
+import {getBalance} from '@wagmi/core'
+import {getAllLiquidityPool} from "./LiquidityPoolRepository.ts";
+import {Address} from "viem";
+import {pairAbi} from "../generated.ts";
+import {ROUTER_ADDRESS} from "../address.tsx";
 
 const getTokenBalance = async (address: string, token: string) => {
     return getBalance(config, {
@@ -11,17 +15,33 @@ const getTokenBalance = async (address: string, token: string) => {
     })
 }
 
-const getAvailableCoin = (): Token[] => {
-    return [{symbol: 'WETH', address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'}, { symbol: 'USDT', address: '0xdAC17F958D2ee523a2206206994597C13D831ec7'}];
+const getAvailableCoin = async (): Promise<Token[]> => {
+    const lp = await getAllLiquidityPool();
+
+    const tokens: Token[] = [];
+
+    lp.forEach((e) => {
+        tokens.push({ symbol: e.tokenASymbol, address: e.tokenA });
+        tokens.push({ symbol: e.tokenBSymbol, address: e.tokenB });
+    });
+
+    return tokens.filter((e, i) => {
+        return tokens.findIndex((t) => t.symbol === e.symbol) === i;
+    });
 }
 
-const getAmoutOut = async (amountIn: number, tokenIn: Token, tokenOut: Token) => {
-    return Math.random() * (1000 - 1) + 1;
+const getQuote = (tokenIn: Address, tokenOut: Address, amountIn: number) => {
+    return publicClient.readContract({
+        address: ROUTER_ADDRESS,
+        abi: pairAbi,
+        functionName: "getQuote",
+        args: [tokenIn, tokenOut, BigInt(amountIn)]
+    })
 }
 
 export type Token = {
     symbol: string;
-    address: string;
+    address: Address;
 }
 
-export { getTokenBalance, getAvailableCoin, getAmoutOut }
+export { getTokenBalance, getAvailableCoin, getQuote };
