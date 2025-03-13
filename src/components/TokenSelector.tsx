@@ -1,10 +1,8 @@
 import {Select, TextInput} from "react95";
 import {Token} from "../repository/SwapRepository.ts";
-import { useState} from "react";
+import React, {useState} from "react";
 import {SelectOption} from "react95/dist/Select/Select.types";
 import {Address} from "viem";
-import { useReadRouterGetQuote} from "../generated.ts";
-import {ROUTER_ADDRESS} from "../address.tsx";
 
 const useTokenInSelector = (availableCoins: Token[]) => {
 
@@ -28,7 +26,7 @@ const useTokenInSelector = (availableCoins: Token[]) => {
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => setAmount(Number(e.target.value));
 
     return {
-        component: <div style={{display: 'flex', flexDirection: 'column', gap: 5}}>
+        component: <div style={{display: 'flex', flexDirection: 'column', gap: 5, width: "50%"}}>
             <Select options={options} onChange={handleTokenChange} defaultValue={defaultToken.address}/>
             <div>
                 <TextInput type={"number"} defaultValue={amount} onChange={handleAmountChange}/>
@@ -37,10 +35,10 @@ const useTokenInSelector = (availableCoins: Token[]) => {
     , token: tokenIn, amount: amount }
 }
 
-const useTokenOutSelector = (availableCoins: Token[], tokenIn: Token, amountIn: number) => {
+const useTokenOutSelector = (availableCoins: Token[]) => {
 
     const [token, setToken] = useState<Token>(availableCoins[0]);
-    const quote = useReadRouterGetQuote({ address: ROUTER_ADDRESS, args: [tokenIn.address, token.address, BigInt(amountIn)]});
+
     const options: SelectOption<Address>[] = availableCoins.map((e) => {
         return {
             label: e.symbol,
@@ -54,13 +52,10 @@ const useTokenOutSelector = (availableCoins: Token[], tokenIn: Token, amountIn: 
     });
 
     return {
-        component: <div style={{display: 'flex', flexDirection: 'column', gap: 5}}>
+        component: <div style={{display: 'flex', flexDirection: 'column', gap: 5, width: "50%"}}>
             <Select options={options} onChange={handleTokenChange}/>
-            <div>
-                <TextInput disabled value={"" + Number(quote.data)}/>
-            </div>
         </div>
-        , token: token, quote: quote.data }
+        , token: token }
 
 }
 

@@ -12,6 +12,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.66.9",
     "@tanstack/react-query-devtools": "^5.67.2",
+    "@uniswap/v2-sdk": "^4.15.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-toastify": "^11.0.5",

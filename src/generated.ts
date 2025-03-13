@@ -132,22 +132,7 @@ export const pairAbi = [
   {
     type: 'function',
     inputs: [
-      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
-      { name: 'reserveIn', internalType: 'uint256', type: 'uint256' },
-      { name: 'reserveOut', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'getAmountOut',
-    outputs: [
-      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
-      { name: 'feeOut', internalType: 'uint256', type: 'uint256' },
-    ],
-    stateMutability: 'pure',
-  },
-  {
-    type: 'function',
-    inputs: [
       { name: 'tokenIn', internalType: 'address', type: 'address' },
-      { name: 'tokenOut', internalType: 'address', type: 'address' },
       { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
     ],
     name: 'getQuote',
@@ -185,7 +170,6 @@ export const pairAbi = [
   {
     type: 'function',
     inputs: [
-      { name: 'sender', internalType: 'address', type: 'address' },
       { name: 'tokenIn', internalType: 'address', type: 'address' },
       { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
     ],
@@ -237,16 +221,6 @@ export const pairAbi = [
 export const routerAbi = [
   { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
   {
-    type: 'error',
-    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
-    name: 'OwnableInvalidOwner',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'OwnableUnauthorizedAccount',
-  },
-  {
     type: 'event',
     anonymous: false,
     inputs: [
@@ -270,25 +244,6 @@ export const routerAbi = [
       },
     ],
     name: 'NewPair',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'previousOwner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'newOwner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-    ],
-    name: 'OwnershipTransferred',
   },
   {
     type: 'function',
@@ -316,50 +271,6 @@ export const routerAbi = [
     name: 'getPair',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'tokenIn', internalType: 'address', type: 'address' },
-      { name: 'tokenOut', internalType: 'address', type: 'address' },
-      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'getQuote',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'owner',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'renounceOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'sender', internalType: 'address', type: 'address' },
-      { name: 'tokenIn', internalType: 'address', type: 'address' },
-      { name: 'tokenOut', internalType: 'address', type: 'address' },
-      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'swapToken',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
-    name: 'transferOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
   },
 ] as const
 
@@ -513,14 +424,6 @@ export const useWatchErc20TransferEvent =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link pairAbi}__
  */
 export const useReadPair = /*#__PURE__*/ createUseReadContract({ abi: pairAbi })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"getAmountOut"`
- */
-export const useReadPairGetAmountOut = /*#__PURE__*/ createUseReadContract({
-  abi: pairAbi,
-  functionName: 'getAmountOut',
-})
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"getQuote"`
@@ -681,22 +584,6 @@ export const useReadRouterGetPair = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"getQuote"`
- */
-export const useReadRouterGetQuote = /*#__PURE__*/ createUseReadContract({
-  abi: routerAbi,
-  functionName: 'getQuote',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"owner"`
- */
-export const useReadRouterOwner = /*#__PURE__*/ createUseReadContract({
-  abi: routerAbi,
-  functionName: 'owner',
-})
-
-/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link routerAbi}__
  */
 export const useWriteRouter = /*#__PURE__*/ createUseWriteContract({
@@ -710,32 +597,6 @@ export const useWriteRouterCreatePair = /*#__PURE__*/ createUseWriteContract({
   abi: routerAbi,
   functionName: 'createPair',
 })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"renounceOwnership"`
- */
-export const useWriteRouterRenounceOwnership =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: routerAbi,
-    functionName: 'renounceOwnership',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"swapToken"`
- */
-export const useWriteRouterSwapToken = /*#__PURE__*/ createUseWriteContract({
-  abi: routerAbi,
-  functionName: 'swapToken',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"transferOwnership"`
- */
-export const useWriteRouterTransferOwnership =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: routerAbi,
-    functionName: 'transferOwnership',
-  })
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link routerAbi}__
@@ -754,33 +615,6 @@ export const useSimulateRouterCreatePair =
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"renounceOwnership"`
- */
-export const useSimulateRouterRenounceOwnership =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: routerAbi,
-    functionName: 'renounceOwnership',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"swapToken"`
- */
-export const useSimulateRouterSwapToken =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: routerAbi,
-    functionName: 'swapToken',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"transferOwnership"`
- */
-export const useSimulateRouterTransferOwnership =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: routerAbi,
-    functionName: 'transferOwnership',
-  })
-
-/**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link routerAbi}__
  */
 export const useWatchRouterEvent = /*#__PURE__*/ createUseWatchContractEvent({
@@ -794,13 +628,4 @@ export const useWatchRouterNewPairEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: routerAbi,
     eventName: 'NewPair',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link routerAbi}__ and `eventName` set to `"OwnershipTransferred"`
- */
-export const useWatchRouterOwnershipTransferredEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: routerAbi,
-    eventName: 'OwnershipTransferred',
   })

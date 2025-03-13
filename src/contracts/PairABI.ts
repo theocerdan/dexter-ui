@@ -36,47 +36,8 @@ export const pairABI = [
     {
         "inputs": [
             {
-                "internalType": "uint256",
-                "name": "amountIn",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "reserveIn",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "reserveOut",
-                "type": "uint256"
-            }
-        ],
-        "name": "getAmountOut",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "amountOut",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "feeOut",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "pure",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
                 "internalType": "address",
                 "name": "tokenIn",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "tokenOut",
                 "type": "address"
             },
             {
@@ -156,11 +117,6 @@ export const pairABI = [
     },
     {
         "inputs": [
-            {
-                "internalType": "address",
-                "name": "sender",
-                "type": "address"
-            },
             {
                 "internalType": "address",
                 "name": "tokenIn",
