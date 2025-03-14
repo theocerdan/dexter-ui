@@ -1,50 +1,45 @@
-# React + TypeScript + Vite
+# Dexter Interface
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a React-based interface for interacting with the Dexter smart contract.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Prerequisites
+Make sure you have the following installed:
+- [Node.js](https://nodejs.org/) (latest LTS recommended)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
 
-## Expanding the ESLint configuration
+### Installation
+1. Clone this repository:
+   ```sh
+   git clone https://github.com/theocerdan/dexter.git
+   cd dexter
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Configuration
+Before running the application, you need to set the router address in `address.ts`:
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```ts
+export const ROUTER_ADDRESS: Address = '0xD0141E899a65C95a556fE2B27e5982A6DE7fDD7A';
 ```
+Replace the address with the appropriate router contract address if necessary.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Usage
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+### Development Mode
+To start the development server, run:
+```sh
+npm run dev
 ```
+This will launch the interface locally with hot reloading.
+
+### Production Build
+To build the application for production, use:
+```sh
+npm run build
+```
+The output will be located in the `dist` directory.

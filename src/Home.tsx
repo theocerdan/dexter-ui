@@ -1,9 +1,9 @@
 import LiquidityPools from "./components/LiquidityPools.tsx";
-import ConnectButtons from "./ConnectButtons.tsx";
+import ConnectButtons from "./components/ConnectButtons.tsx";
 import {useAccount} from "wagmi";
 import CreateLiquidityPool from "./components/CreateLiquidityPool.tsx";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
-import SwapBox from "./Swap.tsx";
+import SwapBox from "./components/Swap.tsx";
 
 const Home = () => {
 

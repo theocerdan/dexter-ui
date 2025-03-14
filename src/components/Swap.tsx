@@ -1,13 +1,13 @@
 import { GroupBox} from "react95";
-import {useTokenInSelector, useTokenOutSelector} from "./components/TokenSelector.tsx";
+import {useTokenInSelector, useTokenOutSelector} from "./TokenSelector.tsx";
 import {useQuery} from "@tanstack/react-query";
-import {getAvailableCoin, Token} from "./repository/SwapRepository.ts";
-import {useReadRouterGetPair} from "./generated.ts";
-import {ROUTER_ADDRESS} from "./address.tsx";
-import SwapButton from "./components/SwapButton.tsx";
+import {getAvailableCoin, Token} from "../repository/SwapRepository.ts";
+import {useReadRouterGetPair} from "../generated.ts";
+import {ROUTER_ADDRESS} from "../address.tsx";
+import SwapButton from "./SwapButton.tsx";
 import {useAccount} from "wagmi";
 import {Address, zeroAddress} from "viem";
-import UniswapSwapButton from "./components/UniswapSwapButton.tsx";
+import UniswapSwapButton from "./UniswapSwapButton.tsx";
 
 const SwapBox = () => {
 
