@@ -1,6 +1,6 @@
 # Dexter Interface
 
-This is a React-based interface for interacting with the Dexter smart contract.
+This is a React-based UI interface for interacting with the Dexter smart contract.
 
 ## Getting Started
 
