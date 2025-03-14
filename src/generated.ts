@@ -272,6 +272,386 @@ export const routerAbi = [
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'view',
   },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'tokenIn', internalType: 'address', type: 'address' },
+      { name: 'tokenOut', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapForwarding',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'uniswapV2Router',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// uniswapRouter
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const uniswapRouterAbi = [
+  {
+    type: 'constructor',
+    inputs: [
+      { name: '_factory', internalType: 'address', type: 'address' },
+      { name: '_WETH', internalType: 'address', type: 'address' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'WETH',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenA', internalType: 'address', type: 'address' },
+      { name: 'tokenB', internalType: 'address', type: 'address' },
+      { name: 'amountADesired', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountBDesired', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountAMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountBMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'addLiquidity',
+    outputs: [
+      { name: 'amountA', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountB', internalType: 'uint256', type: 'uint256' },
+      { name: 'liquidity', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'token', internalType: 'address', type: 'address' },
+      { name: 'amountTokenDesired', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountTokenMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountETHMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'addLiquidityETH',
+    outputs: [
+      { name: 'amountToken', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountETH', internalType: 'uint256', type: 'uint256' },
+      { name: 'liquidity', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'factory',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
+      { name: 'reserveIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'reserveOut', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getAmountIn',
+    outputs: [{ name: 'amountIn', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'reserveIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'reserveOut', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'getAmountOut',
+    outputs: [{ name: 'amountOut', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
+      { name: 'path', internalType: 'address[]', type: 'address[]' },
+    ],
+    name: 'getAmountsIn',
+    outputs: [
+      { name: 'amounts', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'path', internalType: 'address[]', type: 'address[]' },
+    ],
+    name: 'getAmountsOut',
+    outputs: [
+      { name: 'amounts', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountA', internalType: 'uint256', type: 'uint256' },
+      { name: 'reserveA', internalType: 'uint256', type: 'uint256' },
+      { name: 'reserveB', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'quote',
+    outputs: [{ name: 'amountB', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenA', internalType: 'address', type: 'address' },
+      { name: 'tokenB', internalType: 'address', type: 'address' },
+      { name: 'liquidity', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountAMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountBMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'removeLiquidity',
+    outputs: [
+      { name: 'amountA', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountB', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'token', internalType: 'address', type: 'address' },
+      { name: 'liquidity', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountTokenMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountETHMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'removeLiquidityETH',
+    outputs: [
+      { name: 'amountToken', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountETH', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'token', internalType: 'address', type: 'address' },
+      { name: 'liquidity', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountTokenMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountETHMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'removeLiquidityETHSupportingFeeOnTransferTokens',
+    outputs: [{ name: 'amountETH', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'token', internalType: 'address', type: 'address' },
+      { name: 'liquidity', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountTokenMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountETHMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'approveMax', internalType: 'bool', type: 'bool' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'removeLiquidityETHWithPermit',
+    outputs: [
+      { name: 'amountToken', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountETH', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'token', internalType: 'address', type: 'address' },
+      { name: 'liquidity', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountTokenMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountETHMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'approveMax', internalType: 'bool', type: 'bool' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens',
+    outputs: [{ name: 'amountETH', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'tokenA', internalType: 'address', type: 'address' },
+      { name: 'tokenB', internalType: 'address', type: 'address' },
+      { name: 'liquidity', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountAMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountBMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'approveMax', internalType: 'bool', type: 'bool' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'removeLiquidityWithPermit',
+    outputs: [
+      { name: 'amountA', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountB', internalType: 'uint256', type: 'uint256' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
+      { name: 'path', internalType: 'address[]', type: 'address[]' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapETHForExactTokens',
+    outputs: [
+      { name: 'amounts', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountOutMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'path', internalType: 'address[]', type: 'address[]' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapExactETHForTokens',
+    outputs: [
+      { name: 'amounts', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountOutMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'path', internalType: 'address[]', type: 'address[]' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapExactETHForTokensSupportingFeeOnTransferTokens',
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountOutMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'path', internalType: 'address[]', type: 'address[]' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapExactTokensForETH',
+    outputs: [
+      { name: 'amounts', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountOutMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'path', internalType: 'address[]', type: 'address[]' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapExactTokensForETHSupportingFeeOnTransferTokens',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountOutMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'path', internalType: 'address[]', type: 'address[]' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapExactTokensForTokens',
+    outputs: [
+      { name: 'amounts', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountOutMin', internalType: 'uint256', type: 'uint256' },
+      { name: 'path', internalType: 'address[]', type: 'address[]' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapExactTokensForTokensSupportingFeeOnTransferTokens',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountInMax', internalType: 'uint256', type: 'uint256' },
+      { name: 'path', internalType: 'address[]', type: 'address[]' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapTokensForExactETH',
+    outputs: [
+      { name: 'amounts', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'amountOut', internalType: 'uint256', type: 'uint256' },
+      { name: 'amountInMax', internalType: 'uint256', type: 'uint256' },
+      { name: 'path', internalType: 'address[]', type: 'address[]' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'swapTokensForExactTokens',
+    outputs: [
+      { name: 'amounts', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  { type: 'receive', stateMutability: 'payable' },
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -584,6 +964,13 @@ export const useReadRouterGetPair = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"uniswapV2Router"`
+ */
+export const useReadRouterUniswapV2Router = /*#__PURE__*/ createUseReadContract(
+  { abi: routerAbi, functionName: 'uniswapV2Router' },
+)
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link routerAbi}__
  */
 export const useWriteRouter = /*#__PURE__*/ createUseWriteContract({
@@ -597,6 +984,15 @@ export const useWriteRouterCreatePair = /*#__PURE__*/ createUseWriteContract({
   abi: routerAbi,
   functionName: 'createPair',
 })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"swapForwarding"`
+ */
+export const useWriteRouterSwapForwarding =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: routerAbi,
+    functionName: 'swapForwarding',
+  })
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link routerAbi}__
@@ -615,6 +1011,15 @@ export const useSimulateRouterCreatePair =
   })
 
 /**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"swapForwarding"`
+ */
+export const useSimulateRouterSwapForwarding =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: routerAbi,
+    functionName: 'swapForwarding',
+  })
+
+/**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link routerAbi}__
  */
 export const useWatchRouterEvent = /*#__PURE__*/ createUseWatchContractEvent({
@@ -628,4 +1033,391 @@ export const useWatchRouterNewPairEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: routerAbi,
     eventName: 'NewPair',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapRouterAbi}__
+ */
+export const useReadUniswapRouter = /*#__PURE__*/ createUseReadContract({
+  abi: uniswapRouterAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"WETH"`
+ */
+export const useReadUniswapRouterWeth = /*#__PURE__*/ createUseReadContract({
+  abi: uniswapRouterAbi,
+  functionName: 'WETH',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"factory"`
+ */
+export const useReadUniswapRouterFactory = /*#__PURE__*/ createUseReadContract({
+  abi: uniswapRouterAbi,
+  functionName: 'factory',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"getAmountIn"`
+ */
+export const useReadUniswapRouterGetAmountIn =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapRouterAbi,
+    functionName: 'getAmountIn',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"getAmountOut"`
+ */
+export const useReadUniswapRouterGetAmountOut =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapRouterAbi,
+    functionName: 'getAmountOut',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"getAmountsIn"`
+ */
+export const useReadUniswapRouterGetAmountsIn =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapRouterAbi,
+    functionName: 'getAmountsIn',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"getAmountsOut"`
+ */
+export const useReadUniswapRouterGetAmountsOut =
+  /*#__PURE__*/ createUseReadContract({
+    abi: uniswapRouterAbi,
+    functionName: 'getAmountsOut',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"quote"`
+ */
+export const useReadUniswapRouterQuote = /*#__PURE__*/ createUseReadContract({
+  abi: uniswapRouterAbi,
+  functionName: 'quote',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__
+ */
+export const useWriteUniswapRouter = /*#__PURE__*/ createUseWriteContract({
+  abi: uniswapRouterAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"addLiquidity"`
+ */
+export const useWriteUniswapRouterAddLiquidity =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'addLiquidity',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"addLiquidityETH"`
+ */
+export const useWriteUniswapRouterAddLiquidityEth =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'addLiquidityETH',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidity"`
+ */
+export const useWriteUniswapRouterRemoveLiquidity =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidity',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidityETH"`
+ */
+export const useWriteUniswapRouterRemoveLiquidityEth =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidityETH',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidityETHSupportingFeeOnTransferTokens"`
+ */
+export const useWriteUniswapRouterRemoveLiquidityEthSupportingFeeOnTransferTokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidityETHSupportingFeeOnTransferTokens',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidityETHWithPermit"`
+ */
+export const useWriteUniswapRouterRemoveLiquidityEthWithPermit =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidityETHWithPermit',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidityETHWithPermitSupportingFeeOnTransferTokens"`
+ */
+export const useWriteUniswapRouterRemoveLiquidityEthWithPermitSupportingFeeOnTransferTokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidityWithPermit"`
+ */
+export const useWriteUniswapRouterRemoveLiquidityWithPermit =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidityWithPermit',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapETHForExactTokens"`
+ */
+export const useWriteUniswapRouterSwapEthForExactTokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapETHForExactTokens',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactETHForTokens"`
+ */
+export const useWriteUniswapRouterSwapExactEthForTokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactETHForTokens',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactETHForTokensSupportingFeeOnTransferTokens"`
+ */
+export const useWriteUniswapRouterSwapExactEthForTokensSupportingFeeOnTransferTokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactETHForTokensSupportingFeeOnTransferTokens',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactTokensForETH"`
+ */
+export const useWriteUniswapRouterSwapExactTokensForEth =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactTokensForETH',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactTokensForETHSupportingFeeOnTransferTokens"`
+ */
+export const useWriteUniswapRouterSwapExactTokensForEthSupportingFeeOnTransferTokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactTokensForETHSupportingFeeOnTransferTokens',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactTokensForTokens"`
+ */
+export const useWriteUniswapRouterSwapExactTokensForTokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactTokensForTokens',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactTokensForTokensSupportingFeeOnTransferTokens"`
+ */
+export const useWriteUniswapRouterSwapExactTokensForTokensSupportingFeeOnTransferTokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactTokensForTokensSupportingFeeOnTransferTokens',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapTokensForExactETH"`
+ */
+export const useWriteUniswapRouterSwapTokensForExactEth =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapTokensForExactETH',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapTokensForExactTokens"`
+ */
+export const useWriteUniswapRouterSwapTokensForExactTokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapTokensForExactTokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__
+ */
+export const useSimulateUniswapRouter = /*#__PURE__*/ createUseSimulateContract(
+  { abi: uniswapRouterAbi },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"addLiquidity"`
+ */
+export const useSimulateUniswapRouterAddLiquidity =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'addLiquidity',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"addLiquidityETH"`
+ */
+export const useSimulateUniswapRouterAddLiquidityEth =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'addLiquidityETH',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidity"`
+ */
+export const useSimulateUniswapRouterRemoveLiquidity =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidity',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidityETH"`
+ */
+export const useSimulateUniswapRouterRemoveLiquidityEth =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidityETH',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidityETHSupportingFeeOnTransferTokens"`
+ */
+export const useSimulateUniswapRouterRemoveLiquidityEthSupportingFeeOnTransferTokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidityETHSupportingFeeOnTransferTokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidityETHWithPermit"`
+ */
+export const useSimulateUniswapRouterRemoveLiquidityEthWithPermit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidityETHWithPermit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidityETHWithPermitSupportingFeeOnTransferTokens"`
+ */
+export const useSimulateUniswapRouterRemoveLiquidityEthWithPermitSupportingFeeOnTransferTokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"removeLiquidityWithPermit"`
+ */
+export const useSimulateUniswapRouterRemoveLiquidityWithPermit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'removeLiquidityWithPermit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapETHForExactTokens"`
+ */
+export const useSimulateUniswapRouterSwapEthForExactTokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapETHForExactTokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactETHForTokens"`
+ */
+export const useSimulateUniswapRouterSwapExactEthForTokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactETHForTokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactETHForTokensSupportingFeeOnTransferTokens"`
+ */
+export const useSimulateUniswapRouterSwapExactEthForTokensSupportingFeeOnTransferTokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactETHForTokensSupportingFeeOnTransferTokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactTokensForETH"`
+ */
+export const useSimulateUniswapRouterSwapExactTokensForEth =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactTokensForETH',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactTokensForETHSupportingFeeOnTransferTokens"`
+ */
+export const useSimulateUniswapRouterSwapExactTokensForEthSupportingFeeOnTransferTokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactTokensForETHSupportingFeeOnTransferTokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactTokensForTokens"`
+ */
+export const useSimulateUniswapRouterSwapExactTokensForTokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactTokensForTokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapExactTokensForTokensSupportingFeeOnTransferTokens"`
+ */
+export const useSimulateUniswapRouterSwapExactTokensForTokensSupportingFeeOnTransferTokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapExactTokensForTokensSupportingFeeOnTransferTokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapTokensForExactETH"`
+ */
+export const useSimulateUniswapRouterSwapTokensForExactEth =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapTokensForExactETH',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link uniswapRouterAbi}__ and `functionName` set to `"swapTokensForExactTokens"`
+ */
+export const useSimulateUniswapRouterSwapTokensForExactTokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: uniswapRouterAbi,
+    functionName: 'swapTokensForExactTokens',
   })

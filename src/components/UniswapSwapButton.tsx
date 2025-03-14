@@ -1,24 +1,25 @@
 import {Button} from "react95";
 import {toast} from "react-toastify";
 import {Token} from "../repository/SwapRepository.ts";
-import {Address, maxInt256} from "viem";
+import {Address, maxInt256, parseEther} from "viem";
 import {
     useReadErc20Allowance,
     useReadErc20BalanceOf,
-    useReadPairGetQuote,
     useWriteErc20Approve,
-    useWritePairSwap
+    useWriteRouterSwapForwarding
 } from "../generated.ts";
+import {ROUTER_ADDRESS} from "../address.tsx";
 
-const SwapButton = ({account, amountIn, tokenIn, tokenOut, pairAddress}: { account: Address, amountIn: number, tokenIn: Token, tokenOut: Token, pairAddress: Address}) => {
+const UniswapSwapButton = ({account, amountIn, tokenIn, tokenOut}: { account: Address, amountIn: number, tokenIn: Token, tokenOut: Token}) => {
 
-    const { data: amountOut, refetch: refetchQuote } = useReadPairGetQuote({ address: pairAddress, args: [tokenIn.address, BigInt(amountIn)] });
+    const amountOut = 0;
+
     const { data: balanceIn, refetch: refetchBalanceIn } = useReadErc20BalanceOf({ address: tokenIn.address, args: [account] });
     const { data: balanceOut, refetch: refetchBalanceOut } = useReadErc20BalanceOf({ address: tokenOut.address, args: [account] });
-    const { data: allowance, refetch: refetchAllowance } = useReadErc20Allowance({ address: tokenIn.address, args: [account, pairAddress] });
+    const { data: allowance, refetch: refetchAllowance } = useReadErc20Allowance({ address: tokenIn.address, args: [account, ROUTER_ADDRESS] });
     const { writeContract: allow } = useWriteErc20Approve({ mutation: {
             onSuccess: () => {
-                toast('Approved ' + tokenIn.symbol + ' to ' + pairAddress);
+                toast('Approved ' + tokenIn.symbol + ' to (router)' + ROUTER_ADDRESS);
             },
             onError: (e) => {
                 toast(e.message);
@@ -27,13 +28,12 @@ const SwapButton = ({account, amountIn, tokenIn, tokenOut, pairAddress}: { accou
     });
 
 
-    const { writeContract: swap } = useWritePairSwap({ mutation: {
+    const { writeContract: swap } = useWriteRouterSwapForwarding({ mutation: {
             onSuccess: () => {
-                toast('Swap completed ' + amountIn + ' ' + tokenIn.symbol + ' to ' + tokenOut.symbol + " on " + pairAddress);
+                toast('Swap completed ' + amountIn + ' ' + tokenIn.symbol + ' to ' + tokenOut.symbol + " on Uniswap v2");
                 refetchBalanceIn();
                 refetchBalanceOut();
                 refetchAllowance();
-                refetchQuote();
             },
             onError: (e) => {
                 toast(e.message);
@@ -43,16 +43,14 @@ const SwapButton = ({account, amountIn, tokenIn, tokenOut, pairAddress}: { accou
 
     const handleSwap = () => {
         if (allowance == undefined || allowance < BigInt(amountIn)) {
-            allow({ address: tokenIn.address, args: [pairAddress, maxInt256] });
+            allow({ address: tokenIn.address, args: [ROUTER_ADDRESS, maxInt256] });
         }
-        if (amountOut == undefined || amountOut <= 0) {
-            toast("Invalid swap because price can't be calculated");
-            return ;
-        }
-        swap({ address: pairAddress, args: [tokenIn.address, BigInt(amountIn)] });
+        swap({ address: ROUTER_ADDRESS, args: [BigInt(amountIn), tokenIn.address, tokenOut.address, 100000000000n], value: parseEther('1.0') });
     }
 
-    return (<><Button size='lg' fullWidth onClick={handleSwap}>{'Swap ' + amountIn + ' ' + tokenIn.symbol + ' to ' + amountOut + ' ' + tokenOut.symbol}</Button>
+    return (<>
+                <Button size='lg' fullWidth
+                        onClick={handleSwap}>{'Uni Swap ' + amountIn + ' ' + tokenIn.symbol + ' to ' + amountOut + ' ' + tokenOut.symbol}</Button>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <p>Balance: {balanceIn} {tokenIn.symbol}</p>
             <p>Balance: {balanceOut} {tokenOut.symbol}</p>
@@ -64,4 +62,4 @@ const SwapButton = ({account, amountIn, tokenIn, tokenOut, pairAddress}: { accou
     </>);
 }
 
-export default SwapButton;
+export default UniswapSwapButton;

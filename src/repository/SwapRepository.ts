@@ -5,6 +5,7 @@ import {config} from "../config.ts";
 import {getBalance} from '@wagmi/core'
 import {getAllLiquidityPool} from "./LiquidityPoolRepository.ts";
 import {Address} from "viem";
+import {USDT_ADDRESS, WETH_ADDRESS} from "../address.tsx";
 
 const getTokenBalance = async (address: string, token: string) => {
     return getBalance(config, {
@@ -23,8 +24,8 @@ const getAvailableCoin = async (): Promise<Token[]> => {
         tokens.push({ symbol: e.tokenBSymbol, address: e.tokenB });
     });
 
-    tokens.push({ symbol: "USDT 🦄", address: "0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0"});
-    tokens.push({ symbol: "WETH 🦄", address: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9"});
+    tokens.push({ symbol: "USDT 🦄", address: USDT_ADDRESS});
+    tokens.push({ symbol: "WETH 🦄", address: WETH_ADDRESS});
 
     return tokens.filter((e, i) => {
         return tokens.findIndex((t) => t.symbol === e.symbol) === i;

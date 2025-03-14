@@ -6,7 +6,8 @@ import {useReadRouterGetPair} from "./generated.ts";
 import {ROUTER_ADDRESS} from "./address.tsx";
 import SwapButton from "./components/SwapButton.tsx";
 import {useAccount} from "wagmi";
-import {Address} from "viem";
+import {Address, zeroAddress} from "viem";
+import UniswapSwapButton from "./components/UniswapSwapButton.tsx";
 
 const SwapBox = () => {
 
@@ -26,6 +27,10 @@ const Swap = ({ availableCoins }: { availableCoins: Token[] }) => {
     const pairAddress = useReadRouterGetPair({ address: ROUTER_ADDRESS, args: [tokenIn.address, tokenOut.address] });
     const { address } = useAccount();
 
+    const isUniswapPair = (symbol: string) => {
+        return symbol.includes("🦄");
+    }
+
     return (
             <div style={{display: 'flex', gap: 10, flexDirection: "column"}}>
                 <div style={{display: 'flex', gap: 10}}>
@@ -33,11 +38,9 @@ const Swap = ({ availableCoins }: { availableCoins: Token[] }) => {
                     <h1 style={{display: 'flex', alignItems: 'center'}}>to</h1>
                     {tokenOutSelector}
                 </div>
-                {pairAddress.data && <SwapButton account={address as Address} amountIn={amountIn} tokenIn={tokenIn} tokenOut={tokenOut} pairAddress={pairAddress.data}/>}
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <p>Network fees: 0.05 ETH</p>
-                    <p>Swap fees: 0.05 ETH</p>
-                </div>
+                {(pairAddress.data && pairAddress.data != zeroAddress) && <SwapButton account={address as Address} amountIn={amountIn} tokenIn={tokenIn} tokenOut={tokenOut} pairAddress={pairAddress.data}/>}
+                {(isUniswapPair(tokenIn.symbol) && isUniswapPair(tokenOut.symbol)) && <UniswapSwapButton account={address as Address} amountIn={amountIn} tokenIn={tokenIn}
+                                    tokenOut={tokenOut}/>}
             </div>
     )
 }
