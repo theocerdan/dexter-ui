@@ -2,6 +2,8 @@
 
 This is a React-based UI interface for interacting with the Dexter smart contract.
 
+![img.png](./public/img.png)
+
 ## Getting Started
 
 ### Prerequisites
