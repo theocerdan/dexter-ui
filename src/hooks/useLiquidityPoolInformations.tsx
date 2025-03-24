@@ -4,8 +4,7 @@ import {
     useReadPairReserveB,
     useReadPairShares,
     useReadPairTokenA,
-    useReadPairTokenB, useReadPairTotalFeesA,
-    useReadPairTotalFeesB,
+    useReadPairTokenB,
     useReadPairTotalShares
 } from "../generated.ts";
 import {useQueryClient} from "@tanstack/react-query";
@@ -18,8 +17,6 @@ const useLiquidityPoolInformations = (pair: Address, client: Address) => {
     const { data: tokenB } = useReadPairTokenB({ address: pair });
     const { data: reserveA, queryKey: reserveAQk } = useReadPairReserveA({ address: pair });
     const { data: reserveB, queryKey: reserveBQk } = useReadPairReserveB({ address: pair });
-    const { data: totalFeesA } = useReadPairTotalFeesA({ address: pair });
-    const { data: totalFeesB } = useReadPairTotalFeesB({ address: pair });
     const { data: shares, queryKey: sharesQk } = useReadPairShares({ address: pair, args: [client] });
     const { data: totalShares, queryKey: totalSharesQk } = useReadPairTotalShares({ address: pair });
 
@@ -29,7 +26,7 @@ const useLiquidityPoolInformations = (pair: Address, client: Address) => {
         queryClient.invalidateQueries({ queryKey: sharesQk });
         queryClient.invalidateQueries({ queryKey: totalSharesQk });
     }
-    return { tokenA: tokenA, tokenB: tokenB, reserveA: reserveA, reserveB: reserveB, totalFeesB: totalFeesB, totalFeesA: totalFeesA, shares: shares, totalShares: totalShares, refetch: refetch };
+    return { tokenA: tokenA, tokenB: tokenB, reserveA: reserveA, reserveB: reserveB, shares: shares, totalShares: totalShares, refetch: refetch };
 }
 
 

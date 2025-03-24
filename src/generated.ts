@@ -119,6 +119,112 @@ export const pairAbi = [
     ],
     stateMutability: 'nonpayable',
   },
+  { type: 'error', inputs: [], name: 'IdenticalAddress' },
+  { type: 'error', inputs: [], name: 'InvalidInputToken' },
+  { type: 'error', inputs: [], name: 'InvalidOutputAmount' },
+  { type: 'error', inputs: [], name: 'NotEnoughLiquidityProvided' },
+  { type: 'error', inputs: [], name: 'NotEnoughReserve' },
+  { type: 'error', inputs: [], name: 'NotEnoughShares' },
+  {
+    type: 'error',
+    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
+    name: 'SafeERC20FailedOperation',
+  },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'adder',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'amountA',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'amountB',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'mintedShares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'AddLiquidity',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'remover',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'shares',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'amountA',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'amountB',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'RemoveLiquidity',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address', indexed: false },
+      {
+        name: 'tokenIn',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'tokenOut',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'amountIn',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'amountOut',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Swap',
+  },
   {
     type: 'function',
     inputs: [
@@ -172,6 +278,7 @@ export const pairAbi = [
     inputs: [
       { name: 'tokenIn', internalType: 'address', type: 'address' },
       { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
+      { name: 'to', internalType: 'address', type: 'address' },
     ],
     name: 'swap',
     outputs: [],
@@ -194,20 +301,6 @@ export const pairAbi = [
   {
     type: 'function',
     inputs: [],
-    name: 'totalFeesA',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'totalFeesB',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [],
     name: 'totalShares',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
@@ -219,7 +312,38 @@ export const pairAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const routerAbi = [
-  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'constructor',
+    inputs: [
+      { name: '_uniswapV2Router', internalType: 'address', type: 'address' },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  { type: 'error', inputs: [], name: 'IdenticalAddress' },
+  { type: 'error', inputs: [], name: 'PairAlreadyExist' },
+  {
+    type: 'error',
+    inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
+    name: 'SafeERC20FailedOperation',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' },
+    ],
+    name: 'Unauthorized',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+      { name: 'expected', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'UnsufficientEther',
+  },
+  { type: 'error', inputs: [], name: 'WithdrawFailed' },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
   {
     type: 'event',
     anonymous: false,
@@ -259,7 +383,7 @@ export const routerAbi = [
       { name: 'tokenB', internalType: 'address', type: 'address' },
     ],
     name: 'createPair',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    outputs: [],
     stateMutability: 'nonpayable',
   },
   {
@@ -274,13 +398,19 @@ export const routerAbi = [
   },
   {
     type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [
       { name: 'amountIn', internalType: 'uint256', type: 'uint256' },
       { name: 'tokenIn', internalType: 'address', type: 'address' },
       { name: 'tokenOut', internalType: 'address', type: 'address' },
-      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
     ],
-    name: 'swapForwarding',
+    name: 'swap',
     outputs: [],
     stateMutability: 'payable',
   },
@@ -290,6 +420,13 @@ export const routerAbi = [
     name: 'uniswapV2Router',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'withdrawFees',
+    outputs: [],
+    stateMutability: 'nonpayable',
   },
 ] as const
 
@@ -854,22 +991,6 @@ export const useReadPairTokenB = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"totalFeesA"`
- */
-export const useReadPairTotalFeesA = /*#__PURE__*/ createUseReadContract({
-  abi: pairAbi,
-  functionName: 'totalFeesA',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"totalFeesB"`
- */
-export const useReadPairTotalFeesB = /*#__PURE__*/ createUseReadContract({
-  abi: pairAbi,
-  functionName: 'totalFeesB',
-})
-
-/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link pairAbi}__ and `functionName` set to `"totalShares"`
  */
 export const useReadPairTotalShares = /*#__PURE__*/ createUseReadContract({
@@ -941,6 +1062,39 @@ export const useSimulatePairSwap = /*#__PURE__*/ createUseSimulateContract({
 })
 
 /**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link pairAbi}__
+ */
+export const useWatchPairEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: pairAbi,
+})
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link pairAbi}__ and `eventName` set to `"AddLiquidity"`
+ */
+export const useWatchPairAddLiquidityEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: pairAbi,
+    eventName: 'AddLiquidity',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link pairAbi}__ and `eventName` set to `"RemoveLiquidity"`
+ */
+export const useWatchPairRemoveLiquidityEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: pairAbi,
+    eventName: 'RemoveLiquidity',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link pairAbi}__ and `eventName` set to `"Swap"`
+ */
+export const useWatchPairSwapEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: pairAbi,
+  eventName: 'Swap',
+})
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link routerAbi}__
  */
 export const useReadRouter = /*#__PURE__*/ createUseReadContract({
@@ -961,6 +1115,14 @@ export const useReadRouterAllPairs = /*#__PURE__*/ createUseReadContract({
 export const useReadRouterGetPair = /*#__PURE__*/ createUseReadContract({
   abi: routerAbi,
   functionName: 'getPair',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"owner"`
+ */
+export const useReadRouterOwner = /*#__PURE__*/ createUseReadContract({
+  abi: routerAbi,
+  functionName: 'owner',
 })
 
 /**
@@ -986,13 +1148,20 @@ export const useWriteRouterCreatePair = /*#__PURE__*/ createUseWriteContract({
 })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"swapForwarding"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"swap"`
  */
-export const useWriteRouterSwapForwarding =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: routerAbi,
-    functionName: 'swapForwarding',
-  })
+export const useWriteRouterSwap = /*#__PURE__*/ createUseWriteContract({
+  abi: routerAbi,
+  functionName: 'swap',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"withdrawFees"`
+ */
+export const useWriteRouterWithdrawFees = /*#__PURE__*/ createUseWriteContract({
+  abi: routerAbi,
+  functionName: 'withdrawFees',
+})
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link routerAbi}__
@@ -1011,12 +1180,20 @@ export const useSimulateRouterCreatePair =
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"swapForwarding"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"swap"`
  */
-export const useSimulateRouterSwapForwarding =
+export const useSimulateRouterSwap = /*#__PURE__*/ createUseSimulateContract({
+  abi: routerAbi,
+  functionName: 'swap',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link routerAbi}__ and `functionName` set to `"withdrawFees"`
+ */
+export const useSimulateRouterWithdrawFees =
   /*#__PURE__*/ createUseSimulateContract({
     abi: routerAbi,
-    functionName: 'swapForwarding',
+    functionName: 'withdrawFees',
   })
 
 /**

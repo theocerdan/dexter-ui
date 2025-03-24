@@ -25,7 +25,7 @@ const LiquidityPools = () => {
 const LiquidityPoolCard = ({ data, address }: { data: LiquidityPool, address: Address }) => {
 
     const { allowed: canSwap, refetch: refetchAllowance } = useAllowed(data.tokenA, data.tokenB, address, data.pair);
-    const { totalFeesA, totalFeesB, reserveA, reserveB, shares, totalShares, refetch: refetchLpInformations } = useLiquidityPoolInformations(data.pair, address);
+    const { reserveA, reserveB, shares, totalShares, refetch: refetchLpInformations } = useLiquidityPoolInformations(data.pair, address);
 
     const handleLpInteraction = () => {
         refetchLpInformations();
@@ -45,10 +45,6 @@ const LiquidityPoolCard = ({ data, address }: { data: LiquidityPool, address: Ad
                 Reserve of {data.tokenASymbol} : {reserveA} {data.tokenASymbol}
                 <br/>
                 Reserve of {data.tokenBSymbol} : {reserveB} {data.tokenBSymbol}
-                <br/>
-                Fees collected {data.tokenASymbol} : {totalFeesA} {data.tokenASymbol}
-                <br/>
-                Fees collected {data.tokenBSymbol} : {totalFeesB} {data.tokenBSymbol}
                 <div style={{display: 'flex', justifyContent: 'space-between', gap: 7}}>
                     {canSwap && shares != undefined ?
                         <DepositLiquidityPool data={data} onAddLiquidity={handleLpInteraction} onRemoveLiquidity={handleLpInteraction} shares={shares} /> :

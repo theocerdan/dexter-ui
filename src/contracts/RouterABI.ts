@@ -1,8 +1,24 @@
 export const routerABI = [
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_uniswapV2Router",
+                "type": "address"
+            }
+        ],
         "stateMutability": "nonpayable",
         "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "IdenticalAddress",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "PairAlreadyExist",
+        "type": "error"
     },
     {
         "inputs": [
@@ -13,6 +29,48 @@ export const routerABI = [
             }
         ],
         "name": "SafeERC20FailedOperation",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+            }
+        ],
+        "name": "Unauthorized",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "value",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "expected",
+                "type": "uint256"
+            }
+        ],
+        "name": "UnsufficientEther",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "WithdrawFailed",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "ZeroAddress",
         "type": "error"
     },
     {
@@ -73,13 +131,7 @@ export const routerABI = [
             }
         ],
         "name": "createPair",
-        "outputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
+        "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
@@ -108,6 +160,19 @@ export const routerABI = [
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "uint256",
@@ -123,14 +188,9 @@ export const routerABI = [
                 "internalType": "address",
                 "name": "tokenOut",
                 "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "deadline",
-                "type": "uint256"
             }
         ],
-        "name": "swapForwarding",
+        "name": "swap",
         "outputs": [],
         "stateMutability": "payable",
         "type": "function"
@@ -146,6 +206,13 @@ export const routerABI = [
             }
         ],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "withdrawFees",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     }
 ] as const;
