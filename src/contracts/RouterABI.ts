@@ -188,6 +188,11 @@ export const routerABI = [
                 "internalType": "address",
                 "name": "tokenOut",
                 "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "minAmountOut",
+                "type": "uint256"
             }
         ],
         "name": "swap",

@@ -22,6 +22,11 @@ export const pairABI = [
     },
     {
         "inputs": [],
+        "name": "InsufficientOutputAmount",
+        "type": "error"
+    },
+    {
+        "inputs": [],
         "name": "InvalidInputToken",
         "type": "error"
     },
@@ -269,7 +274,7 @@ export const pairABI = [
             },
             {
                 "internalType": "uint256",
-                "name": "amountIn",
+                "name": "minAmountOut",
                 "type": "uint256"
             },
             {
