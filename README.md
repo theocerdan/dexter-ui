@@ -1,47 +1,33 @@
-# Dexter Interface
+# Dexter UI - Decentralized Exchange Frontend
 
-This is a React-based UI interface for interacting with the Dexter smart contract.
+A modern and intuitive user interface for interacting with the Dexter protocol, an Automated Market Maker (AMM) built on Ethereum.
 
-![img.png](./public/img.png)
+## Features
 
-## Getting Started
+- **Token Swaps**: Swap ERC20 tokens with customizable slippage settings  
+  ![Swap UI](https://via.placeholder.com/600x300?text=Swap+UI)
 
-### Prerequisites
-Make sure you have the following installed:
-- [Node.js](https://nodejs.org/) (latest LTS recommended)
-- [npm](https://www.npmjs.com/) (comes with Node.js)
+- **Create Pools**: Deploy new liquidity pools for custom token pairs  
+  ![Create Pool UI](./img/img_1.png)
 
-### Installation
-1. Clone this repository:
-   ```sh
-   git clone https://github.com/theocerdan/dexter.git
-   cd dexter
-   ```
-2. Install dependencies:
-   ```sh
-   npm install
-   ```
+- **Add Liquidity**: Provide liquidity to existing pools and earn transaction fees  
 
-## Configuration
-Before running the application, you need to set the router address in `address.ts`:
+- **Remove Liquidity**: Withdraw your funds while keeping a share of the generated fees  
+  ![Remove Add Liquidity UI](./img/img.png)
 
-```ts
-export const ROUTER_ADDRESS: Address = '0xD0141E899a65C95a556fE2B27e5982A6DE7fDD7A';
-```
-Replace the address with the appropriate router contract address if necessary.
+## Installation
 
-## Usage
+```bash
+# Install dependencies
+npm install
 
-### Development Mode
-To start the development server, run:
-```sh
+# Start the application in development mode
 npm run dev
 ```
-This will launch the interface locally with hot reloading.
 
-### Production Build
-To build the application for production, use:
-```sh
-npm run build
-```
-The output will be located in the `dist` directory.
+## Blockchain Interaction
+
+Dexter UI utilizes **Wagmi** and **Viem** for seamless blockchain interactions. The DEX is accessible at:
+
+🔗 [Dexter UI on Sepolia](https://dexter-ui-eight.vercel.app/)
+
