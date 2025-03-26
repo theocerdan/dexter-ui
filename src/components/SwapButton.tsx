@@ -3,18 +3,19 @@ import {toast} from "react-toastify";
 import {Address, maxInt256, parseEther, parseUnits} from "viem";
 import {
     useReadErc20Allowance,
-    useReadErc20BalanceOf,
     useWriteErc20Approve, useWriteRouterSwap
 } from "../generated.ts";
-import {ROUTER_ADDRESS} from "../address.tsx";
+import {ROUTER_ADDRESS, ZERO_ADDRESS} from "../address.tsx";
 import {Token} from "../repository/types";
-import {formatFixedDecimals} from "../helpers/formatFixedUnits.ts";
+import {useGetQuote} from "../hooks/useGetQuote.tsx";
+import {useBalance} from "../hooks/useBalance.tsx";
 
 const SwapButton = ({account, amountIn, tokenIn, tokenOut}: { account: Address, amountIn: number, tokenIn: Token, tokenOut: Token}) => {
 
-    const { data: balanceIn, refetch: refetchBalanceIn } = useReadErc20BalanceOf({ address: tokenIn.address, args: [account] });
-    const { data: balanceOut, refetch: refetchBalanceOut } = useReadErc20BalanceOf({ address: tokenOut.address, args: [account] });
+    const { balance: balanceIn, refetchBalance: refetchBalanceIn } = useBalance(tokenIn, account);
+    const { balance: balanceOut, refetchBalance: refetchBalanceOut } = useBalance(tokenOut, account);
     const { data: allowance, refetch: refetchAllowance } = useReadErc20Allowance({ address: tokenIn.address, args: [account, ROUTER_ADDRESS] });
+    const { quote, pairAddress } = useGetQuote(tokenIn, tokenOut, amountIn);
 
     const { writeContract: allow } = useWriteErc20Approve({ mutation: {
             onSuccess: () => {
@@ -46,17 +47,35 @@ const SwapButton = ({account, amountIn, tokenIn, tokenOut}: { account: Address, 
         if (allowance == undefined || allowance < amountInWithUnits) {
             allow({ address: tokenIn.address, args: [ROUTER_ADDRESS, maxInt256] });
         }
-        const attachedValue = isForwardedToUniswap() ? parseEther('1.0') : BigInt(0);
+        const attachedValue = isForwardedToUniswap ? parseEther('1.0') : BigInt(0);
 
         swap({ address: ROUTER_ADDRESS, args: [amountInWithUnits, tokenIn.address, tokenOut.address, 1n], value: attachedValue });
     }
 
-    const isForwardedToUniswap = () => tokenIn.symbol.includes('🦄') || tokenOut.symbol.includes('🦄');
+    const isForwardedToUniswap = pairAddress == ZERO_ADDRESS;
 
-    return (<><Button size='lg' fullWidth onClick={handleSwap}>{'Swap ' + ' ' + tokenIn.symbol + ' to '}</Button>
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            {balanceIn != undefined  && <p>Balance: {formatFixedDecimals(balanceIn, tokenIn.decimals)} {tokenIn.symbol}</p>}
-            {balanceOut != undefined  && <p>Balance: {formatFixedDecimals(balanceOut, tokenOut.decimals)} {tokenOut.symbol}</p>}
+    const getSwapHelper = (): { text: string, disable: boolean } => {
+        if (tokenIn.address == tokenOut.address) {
+            return { text: 'Same token', disable: true };
+        }
+        if (amountIn == 0) {
+            return { text: 'Enter amount', disable: true };
+        }
+        if (isForwardedToUniswap) {
+            return { text: 'Forwarded to Uniswap', disable: false };
+        }
+        if (quote == null) {
+            return { text: 'Loading quote...', disable: true };
+        }
+        return { text: 'Swap ' + amountIn + ' ' + tokenIn.symbol + ' to ' + quote + " " + tokenOut.symbol , disable: false };
+    }
+
+    const swapHelper = getSwapHelper();
+
+    return (<><Button size='lg' fullWidth onClick={handleSwap} disabled={swapHelper.disable}>{swapHelper.text}</Button>
+        <div style={{display: 'flex', justifyContent: 'space-between', gap: 10}}>
+            {balanceIn != undefined  && <p>Balance: {balanceIn} {tokenIn.symbol}</p>}
+            {balanceOut != undefined  && <p>Balance: {balanceOut} {tokenOut.symbol}</p>}
         </div>
     </>);
 }
