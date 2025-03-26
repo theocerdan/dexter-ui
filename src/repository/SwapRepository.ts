@@ -12,8 +12,8 @@ const getAvailableCoin = async (): Promise<Token[]> => {
         tokens.push(e.tokenB);
     });
 
-    tokens.push({ symbol: "USDT 🦄", address: USDT_ADDRESS, decimals: 6 });
-    tokens.push({ symbol: "WETH 🦄", address: WETH_ADDRESS, decimals: 18 });
+    tokens.push({ symbol: "USDT", address: USDT_ADDRESS, decimals: 6 });
+    tokens.push({ symbol: "WETH", address: WETH_ADDRESS, decimals: 18 });
 
     return tokens.filter((e, i) => {
         return tokens.findIndex((t) => t.symbol === e.symbol) === i;
