@@ -15,7 +15,7 @@
     "@uniswap/v2-sdk": "^4.15.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-toastify": "^11.0.5",
+    "react-hot-toast": "^2.5.2",
     "react95": "^4.0.0",
     "styled-components": "^6.1.15",
     "viem": "^2.23.5",

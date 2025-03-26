@@ -4,10 +4,10 @@ import {
     useWritePairRemoveLiquidity
 } from "../generated.ts";
 import {Button, TextInput} from "react95";
-import {toast} from "react-toastify";
 import {LiquidityPool} from "../repository/types";
 import {parseUnits} from "viem";
 import {formatFixedDecimals} from "../helpers/formatFixedUnits.ts";
+import toast from "react-hot-toast";
 
 const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares }: { data: LiquidityPool, onAddLiquidity: () => void | undefined, onRemoveLiquidity: () => void | undefined, shares: bigint }) => {
 
@@ -20,9 +20,11 @@ const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares 
                 if (onRemoveLiquidity) {
                     onRemoveLiquidity();
                 }
+                toast.success("You successfully removed liquidity");
             },
             onError: (e) => {
-                toast(e.message);
+                console.error(e.message);
+                toast.error("Error while removing liquidity");
             },
         }
     });
@@ -43,8 +45,6 @@ const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares 
             address: data.pair,
             args: [parseUnits(amountTokenA.toString(), data.tokenA.decimals), parseUnits(amountTokenB.toString(), data.tokenB.decimals)],
         })
-        setAmountTokenA(0);
-        setAmountTokenB(0);
     }
 
     const handleRemoveLiquidity = () => {
@@ -59,12 +59,20 @@ const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares 
                 if (onAddLiquidity) {
                     onAddLiquidity();
                 }
+                toast.success("You successfully added liquidity");
+                resetInput();
             },
             onError: (e) => {
-                toast(e.message);
+                console.error(e.message);
+                toast.error("Error while adding liquidity");
             }
         }
     });
+
+    const resetInput = () => {
+        setAmountTokenA(0);
+        setAmountTokenB(0);
+    }
 
     return (
         <div style={{display: 'flex', flexDirection: 'column', width: '100%', gap: 10 }}>

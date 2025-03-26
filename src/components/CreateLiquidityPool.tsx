@@ -3,16 +3,17 @@ import {useWriteRouterCreatePair} from "../generated.ts";
 import {ROUTER_ADDRESS} from "../address.tsx";
 import {useState} from "react";
 import {Address, isAddress} from "viem";
-import {toast} from "react-toastify";
+import toast from "react-hot-toast";
 
 const CreateLiquidityPool = () => {
 
     const { writeContract: createPool } = useWriteRouterCreatePair({ mutation: {
             onSuccess: () => {
-                toast("Pool created");
+                toast.success("Pool created successfully");
             },
             onError: (e) => {
-                toast(e.message);
+                console.error(e.message);
+                toast.error("Error while creating pool");
             }
     }});
 
@@ -21,7 +22,8 @@ const CreateLiquidityPool = () => {
 
     const handleCreatePool = () => {
         if (!isAddress(tokenA) || !isAddress(tokenB)) {
-            toast("Invalid address");
+            toast.error("Invalid address");
+            return;
         }
         createPool({
             args: [tokenA as Address, tokenB as Address],

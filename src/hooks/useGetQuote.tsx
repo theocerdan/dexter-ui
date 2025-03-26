@@ -6,9 +6,9 @@ import {formatFixedDecimals} from "../helpers/formatFixedUnits.ts";
 
 export const useGetQuote = (tokenIn: Token, tokenOut: Token, amountIn: number) => {
     const pairAddress = useReadRouterGetPair({ address: ROUTER_ADDRESS, args: [tokenIn.address, tokenOut.address] });
-    const quote = useReadPairGetQuote({ address: pairAddress.data, args: [tokenIn.address, parseUnits(amountIn.toString(), tokenIn.decimals)] });
+    const { data: quote, refetch } = useReadPairGetQuote({ address: pairAddress.data, args: [tokenIn.address, parseUnits(amountIn.toString(), tokenIn.decimals)] });
 
-    const returnQuote = quote.data == undefined ? null : formatFixedDecimals(quote.data, tokenOut.decimals);
+    const returnQuote = quote == undefined ? null : formatFixedDecimals(quote, tokenOut.decimals);
 
-    return { quote: { formattedQuote: returnQuote, quote: quote.data }, pairAddress: pairAddress.data};
+    return { quote: { formattedQuote: returnQuote, quote: quote }, pairAddress: pairAddress.data, refetch};
 }

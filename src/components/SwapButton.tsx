@@ -1,5 +1,4 @@
 import {Button, Radio, Separator} from "react95";
-import {toast} from "react-toastify";
 import {Address, maxInt256, parseEther, parseUnits} from "viem";
 import {
     useReadErc20Allowance,
@@ -10,21 +9,23 @@ import {Token} from "../repository/types";
 import {useGetQuote} from "../hooks/useGetQuote.tsx";
 import {useBalance} from "../hooks/useBalance.tsx";
 import {useState} from "react";
+import toast from "react-hot-toast";
 
 const SwapButton = ({account, amountIn, tokenIn, tokenOut}: { account: Address, amountIn: number, tokenIn: Token, tokenOut: Token}) => {
 
     const { balance: balanceIn, refetchBalance: refetchBalanceIn } = useBalance(tokenIn, account);
     const { balance: balanceOut, refetchBalance: refetchBalanceOut } = useBalance(tokenOut, account);
     const { data: allowance, refetch: refetchAllowance } = useReadErc20Allowance({ address: tokenIn.address, args: [account, ROUTER_ADDRESS] });
-    const { quote, pairAddress } = useGetQuote(tokenIn, tokenOut, amountIn);
+    const { quote, pairAddress, refetch: refetchQuote } = useGetQuote(tokenIn, tokenOut, amountIn);
     const { component: slippageSelector, slippage } = useSlippage();
 
     const { writeContract: allow } = useWriteErc20Approve({ mutation: {
             onSuccess: () => {
-                toast('Approved ' + tokenIn.symbol);
+                toast.success('You successfully approved the token : ' + tokenIn.symbol);
             },
             onError: (e) => {
-                toast(e.message);
+                console.error(e.message);
+                toast.error('Error while approving the token : ' + tokenIn.symbol);
             }
         }
     });
@@ -32,14 +33,15 @@ const SwapButton = ({account, amountIn, tokenIn, tokenOut}: { account: Address, 
 
     const { writeContract: swap } = useWriteRouterSwap({ mutation: {
             onSuccess: () => {
-                toast('Swap completed ' + amountIn + ' ' + tokenIn.symbol + ' to ' + tokenOut.symbol);
+                toast.success('Swap completed ' + amountIn + ' ' + tokenIn.symbol + ' to ' + quote.formattedQuote + ' ' + tokenOut.symbol);
                 refetchBalanceIn();
                 refetchBalanceOut();
                 refetchAllowance();
+                refetchQuote();
             },
             onError: (e) => {
-                toast(e.message);
-                toast('Swap not completed ' + amountIn + ' ' + tokenIn.symbol + ' to ' + tokenOut.symbol);
+                console.error(e.message);
+                toast.error('Error while swapping the token');
             }
         }
     });

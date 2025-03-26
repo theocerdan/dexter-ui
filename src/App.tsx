@@ -10,7 +10,7 @@ import original from 'react95/dist/themes/original';
 import {createGlobalStyle, ThemeProvider} from "styled-components";
 import {styleReset} from "react95";
 import Home from "./Home.tsx";
-import {ToastContainer} from "react-toastify";
+import {Toaster} from "react-hot-toast";
 
 const GlobalStyles = createGlobalStyle`
   ${styleReset}
@@ -41,7 +41,7 @@ function App() {
               <GlobalStyles />
               <ThemeProvider theme={original}>
                   <Home />
-                  <ToastContainer />
+                  <Toaster position="top-right" reverseOrder={false} />
               </ThemeProvider>
           </QueryClientProvider>
       </WagmiProvider>
