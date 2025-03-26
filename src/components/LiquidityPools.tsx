@@ -2,12 +2,13 @@ import {GroupBox, Window, WindowContent, WindowHeader} from "react95";
 import {useQuery} from "@tanstack/react-query";
 import {getAllLiquidityPool} from "../repository/LiquidityPoolRepository.ts";
 import {useAccount} from "wagmi";
-import {Address, formatUnits} from "viem";
+import {Address} from "viem";
 import AllowanceLiquidityPool from "./AllowanceLiquidityPool.tsx";
 import DepositLiquidityPool from "./DepositLiquidityPool.tsx";
 import useAllowed from "../hooks/useAllowed.tsx";
 import useLiquidityPoolInformations from "../hooks/useLiquidityPoolInformations.tsx";
 import {LiquidityPool} from "../repository/types";
+import {formatFixedDecimals} from "../helpers/formatFixedUnits.ts";
 
 const LiquidityPools = () => {
 
@@ -43,9 +44,9 @@ const LiquidityPoolCard = ({ data, address }: { data: LiquidityPool, address: Ad
                 <br/>
                 Your shares : {shares}
                 <br/>
-                Reserve of {data.tokenA.symbol} : {formatUnits(reserveA || 0n, data.tokenA.decimals)} {data.tokenA.symbol}
+                Reserve of {data.tokenA.symbol} : {formatFixedDecimals(reserveA || 0n, data.tokenA.decimals)} {data.tokenA.symbol}
                 <br/>
-                Reserve of {data.tokenB.symbol} : {formatUnits(reserveB || 0n, data.tokenB.decimals)} {data.tokenB.symbol}
+                Reserve of {data.tokenB.symbol} : {formatFixedDecimals(reserveB || 0n, data.tokenB.decimals)} {data.tokenB.symbol}
                 <div style={{display: 'flex', justifyContent: 'space-between', gap: 7}}>
                     {canSwap && shares != undefined ?
                         <DepositLiquidityPool data={data} onAddLiquidity={handleLpInteraction} onRemoveLiquidity={handleLpInteraction} shares={shares} /> :

@@ -1,7 +1,7 @@
 import {Select, TextInput} from "react95";
 import React, {useState} from "react";
 import {SelectOption} from "react95/dist/Select/Select.types";
-import {Address, parseUnits} from "viem";
+import {Address} from "viem";
 import {Token} from "../repository/types";
 import {getToken} from "../repository/ERC20Repository.ts";
 
@@ -32,7 +32,7 @@ const useTokenInSelector = (availableCoins: Token[]) => {
                 <TextInput type={"number"} defaultValue={amount} onChange={handleAmountChange}/>
             </div>
         </div>
-    , token: tokenIn, amount: parseUnits(amount.toString(), tokenIn.decimals) }
+    , token: tokenIn, amount: amount }
 }
 
 const useTokenOutSelector = (availableCoins: Token[]) => {
