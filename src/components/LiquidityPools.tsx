@@ -19,7 +19,9 @@ const LiquidityPools = () => {
     return (
         <GroupBox label='Liquidity Pools' style={{display: 'flex', padding: 30, flexDirection: 'row', gap: 10 }}>
             {isLoading && 'Loading...'}
-            {address && lp && lp.map((data: LiquidityPool) => <LiquidityPoolCard key={data.pair} data={data} address={address} />)}
+            {address && lp && <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap'}}>
+                {lp.map((data: LiquidityPool) => <LiquidityPoolCard key={data.pair} data={data} address={address}/>)}
+            </div>}
         </GroupBox>
     )
 }

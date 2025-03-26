@@ -74,6 +74,10 @@ const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares 
         setAmountTokenB(0);
     }
 
+    const disableAddButton = !(amountTokenA > 0 && amountTokenB > 0);
+    const disableRemoveButton = shares <= 0;
+
+
     return (
         <div style={{display: 'flex', flexDirection: 'column', width: '100%', gap: 10 }}>
             <div>
@@ -86,8 +90,8 @@ const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares 
                 <TextInput type={"number"} fullWidth placeholder={data.tokenB.symbol} onChange={onTokenBChange}
                            value={amountTokenB}></TextInput>
             </div>
-            <Button disabled={!(amountTokenA > 0 && amountTokenB > 0)} onClick={handleAddLiquidity}>Add</Button>
-            {shares > 0 && <Button fullWidth onClick={handleRemoveLiquidity}>Remove {formatFixedDecimals(shares, 18)} shares</Button>}
+            <Button disabled={disableAddButton} onClick={handleAddLiquidity}>Add shares</Button>
+            <Button disabled={disableRemoveButton} fullWidth onClick={handleRemoveLiquidity}>Remove {formatFixedDecimals(shares, 18)} shares</Button>
         </div>
     )
 }
