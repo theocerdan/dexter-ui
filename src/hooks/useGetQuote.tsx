@@ -10,5 +10,5 @@ export const useGetQuote = (tokenIn: Token, tokenOut: Token, amountIn: number) =
 
     const returnQuote = quote.data == undefined ? null : formatFixedDecimals(quote.data, tokenOut.decimals);
 
-    return { quote: returnQuote, pairAddress: pairAddress.data};
+    return { quote: { formattedQuote: returnQuote, quote: quote.data }, pairAddress: pairAddress.data};
 }

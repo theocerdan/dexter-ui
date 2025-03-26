@@ -1,4 +1,4 @@
-import {GroupBox, Window, WindowContent, WindowHeader} from "react95";
+import {GroupBox, Separator, Window, WindowContent, WindowHeader} from "react95";
 import {useQuery} from "@tanstack/react-query";
 import {getAllLiquidityPool} from "../repository/LiquidityPoolRepository.ts";
 import {useAccount} from "wagmi";
@@ -39,24 +39,29 @@ const LiquidityPoolCard = ({ data, address }: { data: LiquidityPool, address: Ad
             <WindowHeader>
                 {data.tokenA.symbol} - {data.tokenB.symbol}
             </WindowHeader>
-            <WindowContent style={{display: "flex", flexDirection: 'column', gap: 7}}>
-                Total shares : {totalShares}
-                <br/>
-                Your shares : {shares}
-                <br/>
-                Reserve of {data.tokenA.symbol} : {formatFixedDecimals(reserveA || 0n, data.tokenA.decimals)} {data.tokenA.symbol}
-                <br/>
-                Reserve of {data.tokenB.symbol} : {formatFixedDecimals(reserveB || 0n, data.tokenB.decimals)} {data.tokenB.symbol}
-                <div style={{display: 'flex', justifyContent: 'space-between', gap: 7}}>
-                    {canSwap && shares != undefined ?
-                        <DepositLiquidityPool data={data} onAddLiquidity={handleLpInteraction} onRemoveLiquidity={handleLpInteraction} shares={shares} /> :
-                        <AllowanceLiquidityPool data={data} owner={address} onApprove={handleLpInteraction}/>}
-                </div>
+            <WindowContent style={{display: "flex", flexDirection: 'column', gap: 20}}>
                 Pair - {data.pair}
                 <br/>
                 {data.tokenA.symbol} - {data.tokenA.address}
                 <br/>
                 {data.tokenB.symbol} - {data.tokenB.address}
+                <Separator orientation='horizontal'/>
+                {totalShares != undefined && <>Total shares : {formatFixedDecimals(totalShares, 18)}</>}
+                <br/>
+                {shares != undefined && <>Your shares : {formatFixedDecimals(shares, 18)}</>}
+                <br/>
+                Reserve
+                of {data.tokenA.symbol} : {formatFixedDecimals(reserveA || 0n, data.tokenA.decimals)} {data.tokenA.symbol}
+                <br/>
+                Reserve
+                of {data.tokenB.symbol} : {formatFixedDecimals(reserveB || 0n, data.tokenB.decimals)} {data.tokenB.symbol}
+                <Separator orientation='horizontal'/>
+                <div style={{display: 'flex', justifyContent: 'space-between', gap: 7}}>
+                    {canSwap && shares != undefined ?
+                        <DepositLiquidityPool data={data} onAddLiquidity={handleLpInteraction}
+                                              onRemoveLiquidity={handleLpInteraction} shares={shares}/> :
+                        <AllowanceLiquidityPool data={data} owner={address} onApprove={handleLpInteraction}/>}
+                </div>
             </WindowContent>
         </Window>
     )
