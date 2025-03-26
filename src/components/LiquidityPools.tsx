@@ -1,12 +1,13 @@
 import {GroupBox, Window, WindowContent, WindowHeader} from "react95";
 import {useQuery} from "@tanstack/react-query";
-import {getAllLiquidityPool, LiquidityPool} from "../repository/LiquidityPoolRepository.ts";
+import {getAllLiquidityPool} from "../repository/LiquidityPoolRepository.ts";
 import {useAccount} from "wagmi";
-import {Address} from "viem";
+import {Address, formatUnits} from "viem";
 import AllowanceLiquidityPool from "./AllowanceLiquidityPool.tsx";
 import DepositLiquidityPool from "./DepositLiquidityPool.tsx";
 import useAllowed from "../hooks/useAllowed.tsx";
 import useLiquidityPoolInformations from "../hooks/useLiquidityPoolInformations.tsx";
+import {LiquidityPool} from "../repository/types";
 
 const LiquidityPools = () => {
 
@@ -24,7 +25,7 @@ const LiquidityPools = () => {
 
 const LiquidityPoolCard = ({ data, address }: { data: LiquidityPool, address: Address }) => {
 
-    const { allowed: canSwap, refetch: refetchAllowance } = useAllowed(data.tokenA, data.tokenB, address, data.pair);
+    const { allowed: canSwap, refetch: refetchAllowance } = useAllowed(data.tokenA.address, data.tokenB.address, address, data.pair);
     const { reserveA, reserveB, shares, totalShares, refetch: refetchLpInformations } = useLiquidityPoolInformations(data.pair, address);
 
     const handleLpInteraction = () => {
@@ -35,16 +36,16 @@ const LiquidityPoolCard = ({ data, address }: { data: LiquidityPool, address: Ad
     return (
         <Window style={{width: '400px'}}>
             <WindowHeader>
-                {data.tokenASymbol} - {data.tokenBSymbol}
+                {data.tokenA.symbol} - {data.tokenB.symbol}
             </WindowHeader>
             <WindowContent style={{display: "flex", flexDirection: 'column', gap: 7}}>
                 Total shares : {totalShares}
                 <br/>
                 Your shares : {shares}
                 <br/>
-                Reserve of {data.tokenASymbol} : {reserveA} {data.tokenASymbol}
+                Reserve of {data.tokenA.symbol} : {formatUnits(reserveA || 0n, data.tokenA.decimals)} {data.tokenA.symbol}
                 <br/>
-                Reserve of {data.tokenBSymbol} : {reserveB} {data.tokenBSymbol}
+                Reserve of {data.tokenB.symbol} : {formatUnits(reserveB || 0n, data.tokenB.decimals)} {data.tokenB.symbol}
                 <div style={{display: 'flex', justifyContent: 'space-between', gap: 7}}>
                     {canSwap && shares != undefined ?
                         <DepositLiquidityPool data={data} onAddLiquidity={handleLpInteraction} onRemoveLiquidity={handleLpInteraction} shares={shares} /> :
@@ -52,9 +53,9 @@ const LiquidityPoolCard = ({ data, address }: { data: LiquidityPool, address: Ad
                 </div>
                 Pair - {data.pair}
                 <br/>
-                {data.tokenASymbol} - {data.tokenA}
+                {data.tokenA.symbol} - {data.tokenA.address}
                 <br/>
-                {data.tokenBSymbol} - {data.tokenB}
+                {data.tokenB.symbol} - {data.tokenB.address}
             </WindowContent>
         </Window>
     )

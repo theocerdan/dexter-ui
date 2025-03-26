@@ -1,10 +1,11 @@
 import { GroupBox} from "react95";
 import {useTokenInSelector, useTokenOutSelector} from "./TokenSelector.tsx";
 import {useQuery} from "@tanstack/react-query";
-import {getAvailableCoin, Token} from "../repository/SwapRepository.ts";
+import {getAvailableCoin} from "../repository/SwapRepository.ts";
 import SwapButton from "./SwapButton.tsx";
 import {useAccount} from "wagmi";
 import {Address} from "viem";
+import {Token} from "../repository/types";
 
 const SwapBox = () => {
 

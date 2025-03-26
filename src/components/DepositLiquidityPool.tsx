@@ -1,4 +1,3 @@
-import {LiquidityPool} from "../repository/LiquidityPoolRepository.ts";
 import {useState} from "react";
 import {
     useWritePairAddLiquidity,
@@ -6,11 +5,13 @@ import {
 } from "../generated.ts";
 import {Button, TextInput} from "react95";
 import {toast} from "react-toastify";
+import {LiquidityPool} from "../repository/types";
+import {parseUnits} from "viem";
 
 const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares }: { data: LiquidityPool, onAddLiquidity: () => void | undefined, onRemoveLiquidity: () => void | undefined, shares: bigint }) => {
 
-    const [amountTokenA, setAmountTokenA] = useState(0);
-    const [amountTokenB, setAmountTokenB] = useState(0);
+    const [amountTokenA, setAmountTokenA] = useState<number>(0);
+    const [amountTokenB, setAmountTokenB] = useState<number>(0);
 
     const { writeContract: removeLiquidity } = useWritePairRemoveLiquidity({
         mutation: {
@@ -39,7 +40,7 @@ const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares 
         }
         addLiquidity({
             address: data.pair,
-            args: [BigInt(amountTokenA), BigInt(amountTokenB)],
+            args: [parseUnits(amountTokenA.toString(), data.tokenA.decimals), parseUnits(amountTokenB.toString(), data.tokenB.decimals)],
         })
         setAmountTokenA(0);
         setAmountTokenB(0);
@@ -67,13 +68,13 @@ const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares 
     return (
         <div style={{display: 'flex', flexDirection: 'column', width: '100%', gap: 10 }}>
             <div>
-                <p>{data.tokenASymbol}</p>
-                <TextInput type={"number"} fullWidth placeholder={data.tokenASymbol} onChange={onTokenAChange}
+                <p>{data.tokenA.symbol}</p>
+                <TextInput type={"number"} fullWidth placeholder={data.tokenA.symbol} onChange={onTokenAChange}
                            value={amountTokenA}></TextInput>
             </div>
             <div>
-                <p>{data.tokenBSymbol}</p>
-                <TextInput type={"number"} fullWidth placeholder={data.tokenBSymbol} onChange={onTokenBChange}
+                <p>{data.tokenB.symbol}</p>
+                <TextInput type={"number"} fullWidth placeholder={data.tokenB.symbol} onChange={onTokenBChange}
                            value={amountTokenB}></TextInput>
             </div>
             <Button disabled={!(amountTokenA > 0 && amountTokenB > 0)} onClick={handleAddLiquidity}>Add</Button>

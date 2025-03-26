@@ -1,18 +1,16 @@
 import {Button} from "react95";
 import {toast} from "react-toastify";
-import {Token} from "../repository/SwapRepository.ts";
-import {Address, maxInt256, parseEther} from "viem";
+import {Address, formatUnits, maxInt256, parseEther} from "viem";
 import {
     useReadErc20Allowance,
     useReadErc20BalanceOf,
     useWriteErc20Approve, useWriteRouterSwap
 } from "../generated.ts";
 import {ROUTER_ADDRESS} from "../address.tsx";
+import {Token} from "../repository/types";
 
 const SwapButton = ({account, amountIn, tokenIn, tokenOut}: { account: Address, amountIn: number, tokenIn: Token, tokenOut: Token}) => {
 
-    //const { data: decimalsIn } = useReadErc20Decimals({ address: tokenIn.address });
-    //const { data: decimalsOut } = useReadErc20Decimals({ address: tokenOut.address });
     const { data: balanceIn, refetch: refetchBalanceIn } = useReadErc20BalanceOf({ address: tokenIn.address, args: [account] });
     const { data: balanceOut, refetch: refetchBalanceOut } = useReadErc20BalanceOf({ address: tokenOut.address, args: [account] });
     const { data: allowance, refetch: refetchAllowance } = useReadErc20Allowance({ address: tokenIn.address, args: [account, ROUTER_ADDRESS] });
@@ -46,16 +44,17 @@ const SwapButton = ({account, amountIn, tokenIn, tokenOut}: { account: Address, 
         if (allowance == undefined || allowance < BigInt(amountIn)) {
             allow({ address: tokenIn.address, args: [ROUTER_ADDRESS, maxInt256] });
         }
-        //const amountInWithDecimals = parseUnits(amountIn.toString(), decimalsIn);
         const attachedValue = isForwardedToUniswap() ? parseEther('1.0') : BigInt(0);
-        swap({ address: ROUTER_ADDRESS, args: [BigInt(amountIn), tokenIn.address, tokenOut.address], value: attachedValue });
+
+        swap({ address: ROUTER_ADDRESS, args: [BigInt(amountIn), tokenIn.address, tokenOut.address, 1n], value: attachedValue });
     }
 
     const isForwardedToUniswap = () => tokenIn.symbol.includes('🦄') || tokenOut.symbol.includes('🦄');
-    return (<><Button size='lg' fullWidth onClick={handleSwap}>{'Swap ' + amountIn + ' ' + tokenIn.symbol + ' to '}</Button>
+
+    return (<><Button size='lg' fullWidth onClick={handleSwap}>{'Swap ' + formatUnits(BigInt(amountIn), tokenIn.decimals) + ' ' + tokenIn.symbol + ' to '}</Button>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            {balanceIn != undefined  && <p>Balance: {balanceIn} {tokenIn.symbol}</p>}
-            {balanceOut != undefined  && <p>Balance: {balanceOut} {tokenOut.symbol}</p>}
+            {balanceIn != undefined  && <p>Balance: {formatUnits(balanceIn, tokenIn.decimals)} {tokenIn.symbol}</p>}
+            {balanceOut != undefined  && <p>Balance: {formatUnits(balanceOut, tokenOut.decimals)} {tokenOut.symbol}</p>}
         </div>
     </>);
 }

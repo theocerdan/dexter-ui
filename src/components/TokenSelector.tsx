@@ -1,8 +1,9 @@
 import {Select, TextInput} from "react95";
-import {Token} from "../repository/SwapRepository.ts";
 import React, {useState} from "react";
 import {SelectOption} from "react95/dist/Select/Select.types";
-import {Address} from "viem";
+import {Address, parseUnits} from "viem";
+import {Token} from "../repository/types";
+import {getToken} from "../repository/ERC20Repository.ts";
 
 const useTokenInSelector = (availableCoins: Token[]) => {
 
@@ -11,10 +12,9 @@ const useTokenInSelector = (availableCoins: Token[]) => {
     const [tokenIn, setTokenIn] = useState<Token>(defaultToken);
     const [amount, setAmount] = useState<number>(defaultAmount);
 
-    const handleTokenChange = (selectedOption: SelectOption<Address>) => setTokenIn({
-        symbol: selectedOption.label as string,
-        address: selectedOption.value
-    });
+    const handleTokenChange = async (selectedOption: SelectOption<Address>) => {
+        setTokenIn(await getToken(selectedOption.value));
+    }
     
     const options: SelectOption<Address>[] = availableCoins.map((e) => {
         return {
@@ -32,7 +32,7 @@ const useTokenInSelector = (availableCoins: Token[]) => {
                 <TextInput type={"number"} defaultValue={amount} onChange={handleAmountChange}/>
             </div>
         </div>
-    , token: tokenIn, amount: amount }
+    , token: tokenIn, amount: parseUnits(amount.toString(), tokenIn.decimals) }
 }
 
 const useTokenOutSelector = (availableCoins: Token[]) => {
@@ -46,10 +46,9 @@ const useTokenOutSelector = (availableCoins: Token[]) => {
         }
     });
 
-    const handleTokenChange = (selectedOption: SelectOption<Address>) => setToken({
-        symbol: selectedOption.label as string,
-        address: selectedOption.value
-    });
+    const handleTokenChange = async (selectedOption: SelectOption<Address>) => {
+        setToken(await getToken(selectedOption.value));
+    }
 
     return {
         component: <div style={{display: 'flex', flexDirection: 'column', gap: 5, width: "50%"}}>
