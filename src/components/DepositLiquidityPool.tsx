@@ -7,6 +7,7 @@ import {Button, TextInput} from "react95";
 import {toast} from "react-toastify";
 import {LiquidityPool} from "../repository/types";
 import {parseUnits} from "viem";
+import {formatFixedDecimals} from "../helpers/formatFixedUnits.ts";
 
 const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares }: { data: LiquidityPool, onAddLiquidity: () => void | undefined, onRemoveLiquidity: () => void | undefined, shares: bigint }) => {
 
@@ -78,7 +79,7 @@ const DepositLiquidityPool = ({ data, onAddLiquidity, onRemoveLiquidity, shares 
                            value={amountTokenB}></TextInput>
             </div>
             <Button disabled={!(amountTokenA > 0 && amountTokenB > 0)} onClick={handleAddLiquidity}>Add</Button>
-            {shares > 0 && <Button fullWidth onClick={handleRemoveLiquidity}>Remove {shares} shares</Button>}
+            {shares > 0 && <Button fullWidth onClick={handleRemoveLiquidity}>Remove {formatFixedDecimals(shares, 18)} shares</Button>}
         </div>
     )
 }
