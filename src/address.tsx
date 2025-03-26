@@ -1,7 +1,7 @@
 import {Address} from "viem";
 
-export const ROUTER_ADDRESS: Address = '0x2E2Ed0Cfd3AD2f1d34481277b3204d807Ca2F8c2';
-export const USDT_ADDRESS: Address = '0xdAC17F958D2ee523a2206206994597C13D831ec7';
-export const WETH_ADDRESS: Address = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
+export const ROUTER_ADDRESS: Address = import.meta.env.ROUTER_ADDRESS;
+export const USDT_ADDRESS: Address = import.meta.env.USDT_ADDRESS;
+export const WETH_ADDRESS: Address = import.meta.env.WETH_ADDRESS;
 export const ZERO_ADDRESS: Address = '0x0000000000000000000000000000000000000000';
 export const LOG_DEPTH = 10000n;
