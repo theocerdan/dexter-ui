@@ -1,5 +1,6 @@
 import {Address} from "viem";
 
+console.log("Router address:", import.meta.env.VITE_ROUTER_ADDRESS);
 export const ROUTER_ADDRESS: Address = import.meta.env.VITE_ROUTER_ADDRESS;
 export const USDT_ADDRESS: Address = import.meta.env.VITE_USDT_ADDRESS;
 export const WETH_ADDRESS: Address = import.meta.env.VITE_WETH_ADDRESS;
