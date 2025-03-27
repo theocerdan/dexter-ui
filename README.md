@@ -5,20 +5,20 @@ A modern and intuitive user interface for interacting with the Dexter protocol, 
 🔗 [Dexter UI on Sepolia](https://dexter-ui-eight.vercel.app/)
 
 
-![img_3.png](img/img_3.png)
+![img_3.png](img/overview.png)
 
 ## Features
 
 - **Token Swaps**: Swap ERC20 tokens with customizable slippage settings  
-  ![Swap UI](./img/img_2.png)
+  ![Swap UI](./img/swap.png)
 
 - **Create Pools**: Deploy new liquidity pools for custom token pairs  
-  ![Create Pool UI](./img/img_1.png)
+  ![Create Pool UI](./img/create.png)
 
 - **Add Liquidity**: Provide liquidity to existing pools and earn transaction fees  
 
 - **Remove Liquidity**: Withdraw your funds while keeping a share of the generated fees  
-  ![Remove Add Liquidity UI](./img/img.png)
+  ![Remove Add Liquidity UI](./img/pool.png)
 
 ## Installation
 
