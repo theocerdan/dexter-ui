@@ -1,4 +1,4 @@
-import { GroupBox} from "react95";
+import {GroupBox, Hourglass} from "react95";
 import {useTokenInSelector, useTokenOutSelector} from "./TokenSelector.tsx";
 import {useQuery} from "@tanstack/react-query";
 import {getAvailableCoin} from "../repository/SwapRepository.ts";
@@ -9,18 +9,26 @@ import {Token} from "../repository/types";
 
 const SwapBox = () => {
 
-    const { data: availableCoins, isSuccess } = useQuery({ queryKey: ['getAvailableCoin'], queryFn: getAvailableCoin});
+    const { data: availableCoins, isSuccess, isLoading } = useQuery({ queryKey: ['getAvailableCoin'], queryFn: getAvailableCoin});
 
     return (
         <GroupBox label='Swap' style={{ justifyContent: 'center', padding: 30, flexDirection: 'row', gap: 10 }}>
             {isSuccess && <Swap availableCoins={availableCoins}/>}
+            {isLoading && <Waiting />}
         </GroupBox>
     )
 }
 
-const Swap = ({ availableCoins }: { availableCoins: Token[] }) => {
+const Waiting = () => {
+    return <div style={{display: 'flex', gap: 1, alignItems: 'center'}}>
+        <Hourglass size={32}/>
+        Waiting for available liquidity pool...
+    </div>
+}
 
-    const { component: tokenInSelector, token: tokenIn, amount: amountIn } = useTokenInSelector(availableCoins);
+const Swap = ({availableCoins}: { availableCoins: Token[] }) => {
+
+    const {component: tokenInSelector, token: tokenIn, amount: amountIn} = useTokenInSelector(availableCoins);
     const { component: tokenOutSelector, token: tokenOut } = useTokenOutSelector(availableCoins);
     const { address } = useAccount();
 

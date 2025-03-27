@@ -1,4 +1,4 @@
-import {GroupBox, Separator, Window, WindowContent, WindowHeader} from "react95";
+import {GroupBox, Hourglass, Separator, Window, WindowContent, WindowHeader} from "react95";
 import {useQuery} from "@tanstack/react-query";
 import {getAllLiquidityPool} from "../repository/LiquidityPoolRepository.ts";
 import {useAccount} from "wagmi";
@@ -18,11 +18,20 @@ const LiquidityPools = () => {
 
     return (
         <GroupBox label='Liquidity Pools' style={{display: 'flex', padding: 30, flexDirection: 'row', gap: 10 }}>
-            {isLoading && 'Loading...'}
+            {isLoading && <Waiting />}
             {address && lp && <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap'}}>
                 {lp.map((data: LiquidityPool) => <LiquidityPoolCard key={data.pair} data={data} address={address}/>)}
             </div>}
         </GroupBox>
+    )
+}
+
+const Waiting = () => {
+    return (
+        <div style={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <Hourglass size={32} />
+            The liquidity pools are loading...
+        </div>
     )
 }
 
