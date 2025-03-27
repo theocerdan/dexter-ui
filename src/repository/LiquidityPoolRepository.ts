@@ -11,8 +11,6 @@ export const getAllLiquidityPool = async (): Promise<LiquidityPool[]> => {
 
     const latestBlock = await publicClient.getBlockNumber();
 
-    console.log("Router get all lp address: ", ROUTER_ADDRESS);
-
     const logs = await publicClient.getContractEvents({
         address: ROUTER_ADDRESS,
         abi: routerABI,
