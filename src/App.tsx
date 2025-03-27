@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 /* Original Windows95 font (optional) */
 import ms_sans_serif from 'react95/dist/fonts/ms_sans_serif.woff2';
 import ms_sans_serif_bold from 'react95/dist/fonts/ms_sans_serif_bold.woff2';
-import original from 'react95/dist/themes/original';
+import original from 'react95/dist/themes/redWine';
 import {createGlobalStyle, ThemeProvider} from "styled-components";
 import {styleReset} from "react95";
 import Home from "./Home.tsx";
